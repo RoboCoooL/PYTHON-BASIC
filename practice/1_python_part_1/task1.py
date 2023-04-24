@@ -15,4 +15,9 @@ from typing import List, Any
 
 
 def delete_from_list(list_to_clean: List, item_to_delete: Any) -> List:
-    ...
+    print(f"{list_to_clean = }")
+    print(f"{item_to_delete = }")
+    for x, i in enumerate(list_to_clean):
+        if i == item_to_delete:
+            list_to_clean.pop(x)
+    return list_to_clean
