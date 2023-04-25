@@ -22,3 +22,15 @@ def generate_words(n=20):
         words.append(word)
 
     return words
+
+
+def write_files():
+    import codecs
+
+    words = generate_words()
+    with open("file1.txt", "w+", encoding='utf-8') as f1:
+        f1.write('\n'.join(words))
+
+    with open("file2.txt", "w+", encoding='cp1251') as f2:
+        words.reverse()
+        f2.write(','.join(words))

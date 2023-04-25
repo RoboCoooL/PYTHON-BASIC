@@ -18,6 +18,15 @@ Examples:
 
 
 def read_numbers(n: int) -> str:
-    ...
-
-
+    num_list = list()
+    if n > 0: print(f"Please enter {n} numbers:")
+    for i in range(n):
+        try:
+            num_list.append(int(input()))
+        except ValueError:
+            continue
+    if len(num_list) > 0:
+        ret_str = f"Avg: {(sum(num_list) / len(num_list)) :.2f}"
+    else:
+        ret_str = "No numbers entered"
+    return ret_str

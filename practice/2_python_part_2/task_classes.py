@@ -28,33 +28,54 @@ PEP8 comply strictly.
 import datetime
 
 
-class Teacher:
-    ...
-
-
-class Student:
-    ...
-
-
 class Homework:
-    ...
+    def __init__(self, text, deadline: datetime.timedelta, created: datetime.datetime):
+        self.text = text
+        self.deadline = deadline
+        self.created = created
+        self.is_done = False
+
+    def is_active(self):
+        return self.created + self.deadline > datetime.datetime.today() or self.is_done
+
+
+class Person:
+    def __init__(self, last_name, first_name):
+        self.last_name = last_name
+        self.first_name = first_name
+
+
+class Student(Person):
+    def do_homework(self, hw: Homework) -> Homework:
+        if hw.is_active():
+            hw.is_done = True
+            return hw
+        else:
+            print('You are late')
+            return None
+
+
+class Teacher(Person):
+    def create_homework(self, text, days_to_compete) -> Homework:
+        new_hw = Homework(text, datetime.timedelta(days=days_to_compete), datetime.datetime.today())
+        return new_hw
 
 
 if __name__ == '__main__':
     teacher = Teacher('Dmitry', 'Orlyakov')
     student = Student('Vladislav', 'Popov')
-    teacher.last_name  # Daniil
-    student.first_name  # Petrov
+    teacher.last_name = 'Petrov'  # Daniil
+    student.first_name = 'Daniil'  # Petrov
 
     expired_homework = teacher.create_homework('Learn functions', 0)
-    expired_homework.created  # Example: 2019-05-26 16:44:30.688762
-    expired_homework.deadline  # 0:00:00
-    expired_homework.text  # 'Learn functions'
+    print(f"{expired_homework.created.ctime() = }")  # Example: 2019-05-26 16:44:30.688762
+    print(f"{expired_homework.deadline.days = }")  # 0:00:00
+    print(f"{expired_homework.text = }")  # 'Learn functions'
 
     # create function from method and use it
     create_homework_too = teacher.create_homework
     oop_homework = create_homework_too('create 2 simple classes', 5)
-    oop_homework.deadline  # 5 days, 0:00:00
+    print(f"{oop_homework.deadline.days = }")  # 5 days, 0:00:00
 
     student.do_homework(oop_homework)
     student.do_homework(expired_homework)  # You are late
